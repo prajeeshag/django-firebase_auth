@@ -1,0 +1,14 @@
+{
+  "status": "done",
+  "assets": {
+    "main.js": {
+      "name": "main.js",
+      "path": "/Users/prajeesh/work/dev/django-firebase_auth/fb_phoneauth/static/fb_phoneauth/main.js"
+    }
+  },
+  "chunks": {
+    "main": [
+      "main.js"
+    ]
+  }
+}

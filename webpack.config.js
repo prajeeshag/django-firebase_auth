@@ -7,23 +7,18 @@ module.exports = {
     mode: 'production',
     context: __dirname,
     entry: {
-        main: './static_src/js/main.js',
-        mdl: './static_src/js/mdl.js',
+        main: './src/js/main.js',
     },
     output: {
-        path: path.resolve('./static/fb_phoneauth/'),
+        path: path.resolve('./fb_phoneauth/static/fb_phoneauth/'),
         filename: "[name].js",
         chunkFilename: "[name].js",
-        // filename: "[name]-[contenthash].js",
-        // chunkFilename: "[name]-[contenthash].js",
         clean: true,
     },
 
     plugins: [
         new BundleTracker({ filename: './webpack-stats.json' }),
         new MiniCssExtractPlugin({
-            // filename: '[name]-[hash].css',
-            // chunkFilename: '[name]-[hash].css',
             filename: '[name].css',
             chunkFilename: '[name].css',
         }),

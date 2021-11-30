@@ -279,3 +279,5 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/django,node
 google-api-cred.json
+
+.vscode

@@ -645,7 +645,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "07b658b83a2d07f4f25eddc49f2ad612af07df2d067720d017a849fcf798700f"
+content-hash = "4fc0852df09bb5adaa58ca81c16f13d62e362df447452b59b10e3cadc7495c6a"
 
 [metadata.files]
 asgiref = [
