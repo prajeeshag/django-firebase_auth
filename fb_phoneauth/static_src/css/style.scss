@@ -1,0 +1,16 @@
+@use "@material/floating-label/mdc-floating-label";
+@use "@material/line-ripple/mdc-line-ripple";
+@use "@material/notched-outline/mdc-notched-outline";
+@use "@material/textfield";
+@use "@material/list/mdc-list";
+@use "@material/menu-surface/mdc-menu-surface";
+@use "@material/menu/mdc-menu";
+@use "@material/select/styles" as select-styles;
+@use "@material/button/styles" as button-styles;
+
+@include textfield.core-styles;
+
+.mdc-select.phone-number {
+    width: 120px;
+}
+  

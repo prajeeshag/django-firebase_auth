@@ -1,0 +1,38 @@
+<div>
+  <div id="sign-in-form-container">
+    <form id="sign-in-form" method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {{ form.phone_number.errors }}
+      <label for={{ form.phone_number.id_for_label }}> Phone number </label>
+      {{ form.phone_number }}
+      {{ form.token }}
+    </form>
+    <button class="btn btn-lg btn-primary" id='sign-in-button'>Verify</button>
+  </div>
+
+  <div id="verification-code-form">
+    <form action="#">
+      <label for="verification-code"> Verification code </label>
+      <input type="text" id="verification-code"> 
+    </form>
+    <button id="verify-code-button">Login</button>
+    <button id="cancel-verify-code-button">Cancel</button>
+  </div>
+  <div id="id_error_fb_login"></div>
+
+  <script>
+    const firebaseConfig = {
+        apiKey: "{{ form.firebaseConfig.apiKey }}",
+        authDomain: "{{ form.firebaseConfig.authDomain }}",
+        projectId: "{{ form.firebaseConfig.projectId }}",
+        storageBucket: "{{ form.firebaseConfig.storageBucket }}",
+        messagingSenderId: "{{ form.firebaseConfig.messagingSenderId }}",
+        appId: "{{ form.firebaseConfig.appId }}"
+    };
+    const TestingMode = {{ form.TestingMode }};
+  </script>
+
+  {{ form.media }}
+
+</div>
