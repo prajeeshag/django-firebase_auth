@@ -28,15 +28,3 @@ def check_configs():
     if not API_CRED_FILE:
         raise ImproperlyConfigured(
             'GOOGLE_APPLICATION_CREDENTIALS environment variable is not set.')
-    if os.path.exists(API_CRED_FILE):
-        return
-
-    API_CRED = os.getenv('GOOGLE_API_CREDENTIALS', None)
-    if not API_CRED:
-        raise ImproperlyConfigured(
-            'GOOGLE_API_CREDENTIALS environment variable is not set.')
-
-    if API_CRED and API_CRED_FILE:
-        jsondata = json.loads(API_CRED)
-        with open(API_CRED_FILE, "w") as outfile:
-            json.dump(jsondata, outfile)
