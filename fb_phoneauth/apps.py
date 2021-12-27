@@ -24,7 +24,3 @@ def check_configs():
     if not hasattr(User, PHONENUMBER_FIELD):
         raise ImproperlyConfigured(
             "FbPhoneAuthBackend: User model doesn't have an phone number field or if the phone number field as different name than 'phone_number' then set name in FB_PHONENUMBER_FIELD in settings")
-    API_CRED_FILE = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', None)
-    if not API_CRED_FILE:
-        raise ImproperlyConfigured(
-            'GOOGLE_APPLICATION_CREDENTIALS environment variable is not set.')

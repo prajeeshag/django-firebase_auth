@@ -7,6 +7,8 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from django.conf import settings
 
 
@@ -15,6 +17,9 @@ class AccountTestCase(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls) -> None:
         HEADLESS = os.getenv('HEADLESS', 'True') == 'True'
+        SELENIUM_EXPLICIT_WAIT = int(os.getenv('SELENIUM_EXPLICIT_WAIT', '60'))
+        FIREBASE_SKIP_VERIFY_TOKEN = os.getenv(
+            'FIREBASE_SKIP_VERIFY_TOKEN', 'False') == 'True'
         options = Options()
         if HEADLESS:
             options.add_argument("--window-size=1920,1080")
@@ -22,14 +27,17 @@ class AccountTestCase(StaticLiveServerTestCase):
             options.add_argument("--headless")
         cls.selenium = WebDriver(options=options)
         cls.selenium.implicitly_wait(10)
+        cls.wait = WebDriverWait(cls.selenium, SELENIUM_EXPLICIT_WAIT)
         cls.old_settings = settings
         settings.FIREBASE_TESTING_MODE = True
+        settings.FIREBASE_SKIP_VERIFY_TOKEN = FIREBASE_SKIP_VERIFY_TOKEN
         super().setUpClass()
 
     @classmethod
     def tearDownClass(cls) -> None:
         cls.selenium.quit()
         settings.FIREBASE_TESTING_MODE = cls.old_settings.FIREBASE_TESTING_MODE
+        settings.FIREBASE_SKIP_VERIFY_TOKEN = cls.old_settings.FIREBASE_SKIP_VERIFY_TOKEN
         super().tearDownClass()
 
     def test_login(self):
@@ -43,6 +51,9 @@ class AccountTestCase(StaticLiveServerTestCase):
     def login_test(self, number, code):
         self.selenium.get('%s%s' % (self.live_server_url,
                           '/phone_login/?next=/phone_login/__test__/'))
+        self.wait.until(EC.visibility_of_element_located(
+            (By.XPATH, "//div[@class='iti__selected-flag']")))
+        time.sleep(2)
         phone_number = self.selenium.find_element_by_id('id_phone_number')
         otp = self.selenium.find_element_by_id('verification-code')
         signinbutton = self.selenium.find_element_by_id('sign-in-button')

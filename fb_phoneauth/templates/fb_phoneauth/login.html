@@ -4,8 +4,10 @@
   <meta charset=utf-8 />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phone Authentication with invisible ReCaptcha</title>
+  {{ form.media.css }}
 </head>
 <body>
   {% include 'fb_phoneauth/partials/login_form.html' %}
+  {{ form.media.js }}
 </body>
 </html>

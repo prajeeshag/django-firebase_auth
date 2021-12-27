@@ -3,7 +3,7 @@ name = "django-fb_phoneauth"
 packages = [
     {include = "fb_phoneauth"}
 ]
-version = "0.1.0"
+version = "0.1.2"
 description = "Google Firebase authentication for django applications."
 authors = ["prajeeshag <prajeeshag@gmail.com>"]
 license = "MIT"

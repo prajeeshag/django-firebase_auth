@@ -11,7 +11,11 @@ from firebase_admin.auth import (
 
 logger = logging.getLogger(__name__)
 
-fireBaseApp = firebase_admin.initialize_app()
+FIREBASE_SKIP_VERIFY_TOKEN = getattr(
+    settings, 'FIREBASE_SKIP_VERIFY_TOKEN', False)
+
+if FIREBASE_SKIP_VERIFY_TOKEN:
+    fireBaseApp = firebase_admin.initialize_app()
 
 User = get_user_model()
 PHONENUMBER_FIELD = getattr(settings, 'FB_PHONENUMBER_FIELD', 'phone_number')
@@ -41,21 +45,21 @@ class FbPhoneAuthBackend(ModelBackend):
                 (F'A non international number {clean_phone_number}')
             )
             return None
+        if not FIREBASE_SKIP_VERIFY_TOKEN:
+            decoded_token = verify_id_token(
+                token, app=fireBaseApp, check_revoked=True)
 
-        decoded_token = verify_id_token(
-            token, app=fireBaseApp, check_revoked=True)
+            uid = decoded_token['uid']
 
-        uid = decoded_token['uid']
+            user = get_user(uid, app=fireBaseApp)
+            user_phone_number = user.phone_number  # NOTE: This is FireBase user Obj
 
-        user = get_user(uid, app=fireBaseApp)
-        user_phone_number = user.phone_number  # NOTE: This is FireBase user Obj
-
-        if phone_number != user_phone_number:
-            logger.warning(
-                (f'phone_number ({phone_number}) from client does not match with'
-                 f' phone_number ({user_phone_number}) from firebase user obj')
-            )
-            return None
+            if phone_number != user_phone_number:
+                logger.warning(
+                    (f'phone_number ({phone_number}) from client does not match with'
+                     f' phone_number ({user_phone_number}) from firebase user obj')
+                )
+                return None
 
         filter_kwargs = {PHONENUMBER_FIELD: phone_number}
         matching_users = User.objects.filter(**filter_kwargs)
