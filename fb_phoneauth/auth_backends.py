@@ -14,8 +14,7 @@ logger = logging.getLogger(__name__)
 FIREBASE_SKIP_VERIFY_TOKEN = getattr(
     settings, 'FIREBASE_SKIP_VERIFY_TOKEN', False)
 
-if FIREBASE_SKIP_VERIFY_TOKEN:
-    fireBaseApp = firebase_admin.initialize_app()
+fireBaseApp = firebase_admin.initialize_app()
 
 User = get_user_model()
 PHONENUMBER_FIELD = getattr(settings, 'FB_PHONENUMBER_FIELD', 'phone_number')
